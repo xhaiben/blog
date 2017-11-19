@@ -1,0 +1,778 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script type="text/javascript" src="/js/src/reward.js" charset="UTF-8"></script>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,数据库," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cacher" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="注册数据库驱动 使用DriverManager获取数据库连接 创建Statement 执行SQL语句">
+<meta name="keywords" content="java,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 使用JDBC连接数据库">
+<meta property="og:url" content="https://www.cacher.cc/2016/12/13/Java 使用JDBC连接数据库.html">
+<meta property="og:site_name" content="Cacher">
+<meta property="og:description" content="注册数据库驱动 使用DriverManager获取数据库连接 创建Statement 执行SQL语句">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/6NXL9SA2XE5CM996_JD_O.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/0FCY7O14OF@UIF1KK.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/6QKBB2XCCY1Z111NEI.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/H1ISBGIWUII9Y_LQ3.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/KCCPTBX@CL3BIN4S.png">
+<meta property="og:updated_time" content="2017-11-18T03:15:13.985Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 使用JDBC连接数据库">
+<meta name="twitter:description" content="注册数据库驱动 使用DriverManager获取数据库连接 创建Statement 执行SQL语句">
+<meta name="twitter:image" content="https://oizhq5zzs.qnssl.com/images/2016/12/6NXL9SA2XE5CM996_JD_O.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> Java 使用JDBC连接数据库 | Cacher </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ccf9499512f844d75eec6acf773e4920";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cacher</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-reward">
+          <a href="/reward" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magnet"></i> <br />
+            
+            打赏
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.cacher.cc/2016/12/13/Java 使用JDBC连接数据库.html">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cacher">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://oizhq5zzs.qnssl.com/%E5%A4%B4%E5%83%8F300.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cacher">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cacher" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java 使用JDBC连接数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-13T09:38:41+08:00">
+                2016-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>注册数据库驱动</li>
+<li>使用DriverManager获取数据库连接</li>
+<li>创建Statement</li>
+<li>执行SQL语句</li>
+</ul>
+<a id="more"></a>
+<hr>
+<h4 id="下载数据库驱动"><a href="#下载数据库驱动" class="headerlink" title="下载数据库驱动"></a>下载数据库驱动</h4><p><img src="https://oizhq5zzs.qnssl.com/images/2016/12/6NXL9SA2XE5CM996_JD_O.png" alt="MySQL驱动下载"></p>
+<h4 id="添加jar到工程下"><a href="#添加jar到工程下" class="headerlink" title="添加jar到工程下"></a>添加jar到工程下</h4><ul>
+<li>IDEA</li>
+</ul>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/12/0FCY7O14OF@UIF1KK.png" alt=""></p>
+<ul>
+<li>Eclipse</li>
+</ul>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/12/6QKBB2XCCY1Z111NEI.png" alt=""></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DBDemo</span> </span>&#123;</span><br><span class="line">    <span class="comment">//mysql驱动类名称</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String DBDriver = <span class="string">"com.mysql.jdbc.Driver"</span>;</span><br><span class="line">    <span class="comment">//mysql数据库链接路径</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String DBUrl = <span class="string">"jdbc:mysql://cacher.cc:3306/DBlearn"</span>;</span><br><span class="line">    <span class="comment">//mysql数据库用户名</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String USER = <span class="string">"user"</span>;</span><br><span class="line">    <span class="comment">//mysql数据库密码</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String PASSWORD = <span class="string">"password"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//利用反射注册数据库驱动</span></span><br><span class="line">        Class.forName(DBDriver);</span><br><span class="line">        <span class="comment">//获取数据库连接</span></span><br><span class="line">        Connection</span><br><span class="line">            connection = DriverManager.getConnection(DBUrl, USER, PASSWORD);</span><br><span class="line">        <span class="comment">//问号是占位符</span></span><br><span class="line">        String sql = <span class="string">" SELECT Student.Sno,Sname,Ssex,Sage,Major,Details "</span> +</span><br><span class="line">                <span class="string">" FROM Student LEFT JOIN Award ON Student.Sno=Award.Sno "</span> +</span><br><span class="line">                <span class="string">" WHERE Student.Sno = ? "</span>;</span><br><span class="line">        <span class="comment">//创建预编译SQL语句</span></span><br><span class="line">        PreparedStatement statement = connection.prepareStatement(sql);</span><br><span class="line">        <span class="comment">//设置占位符的值</span></span><br><span class="line">        statement.setString(<span class="number">1</span>, <span class="string">"20100001"</span>);</span><br><span class="line">        <span class="comment">//执行SQL获取查询结果</span></span><br><span class="line">        ResultSet resultSet = statement.executeQuery();</span><br><span class="line">        <span class="comment">//输出第一到第六列的值</span></span><br><span class="line">        <span class="keyword">while</span> (resultSet.next()) &#123;</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">1</span>));</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">2</span>));</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">3</span>));</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">4</span>));</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">5</span>));</span><br><span class="line">            System.out.print(resultSet.getString(<span class="number">6</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//释放数据库连接</span></span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SQLServer的数据库路径配置和MySQL不大一样，获取连接后的使用基本相同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String DBDriver = <span class="string">"com.microsoft.sqlserver.jdbc.SQLServerDriver"</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String DBUrl = <span class="string">"jdbc:sqlserver://192.168.44.131:1433;DatabaseName=DB"</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String USER = <span class="string">"sa"</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String PASSWORD = <span class="string">"password"</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="表结构"><a href="#表结构" class="headerlink" title="表结构"></a>表结构</h4><ul>
+<li>Student表</li>
+</ul>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/12/H1ISBGIWUII9Y_LQ3.png" alt=""></p>
+<ul>
+<li>Award表</li>
+</ul>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/12/KCCPTBX@CL3BIN4S.png" alt=""></p>
+<blockquote>
+<p>备注：<br>使用<code>PreparedStatement</code>代替<code>Statement</code>，以设置占位符的方式代替<code>String</code>拼接，可在一定程度上防止<strong>SQL注入</strong>。</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://oizhq5zzs.qnssl.com/images/pay/wechatpay.png" alt="Cacher WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://oizhq5zzs.qnssl.com/images/pay/alipay.png" alt="Cacher Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/01/斐波那契数列的尾递归算法.html" rel="next" title="斐波那契数列的尾递归算法">
+                <i class="fa fa-chevron-left"></i> 斐波那契数列的尾递归算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/Tomcat数据库连接池配置.html" rel="prev" title="Tomcat 数据库连接池配置">
+                Tomcat 数据库连接池配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://oizhq5zzs.qnssl.com/%E5%A4%B4%E5%83%8F300.png"
+               alt="Cacher" />
+          <p class="site-author-name" itemprop="name">Cacher</p>
+          <p class="site-description motion-element" itemprop="description">Life Is An Attitude</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xhaiben" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005051715772565" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/blog/" title="ruanyf" target="_blank">ruanyf</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.lihuanyu.com/" title="skyADMIN" target="_blank">skyADMIN</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载数据库驱动"><span class="nav-number">1.</span> <span class="nav-text">下载数据库驱动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加jar到工程下"><span class="nav-number">2.</span> <span class="nav-text">添加jar到工程下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表结构"><span class="nav-number">4.</span> <span class="nav-text">表结构</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+    </div>
+    
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cacher</span>
+</div>
+
+<div>
+鲁 ICP 备 16019302 号
+</div>
+
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

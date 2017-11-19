@@ -1,0 +1,1 @@
+function reward(){var A=document.getElementById("QR");if(A.style.display==="none"){A.style.display="block"}else{A.style.display="none"}};
