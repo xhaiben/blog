@@ -1,0 +1,784 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<script type="text/javascript" src="/js/src/reward.js" charset="UTF-8"></script>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Toolbar," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Cacher" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="设置 NoActionBar 主题 添加 Toolbar 添加自定义 menu">
+<meta name="keywords" content="Android,Toolbar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 自定义 Toolbar">
+<meta property="og:url" content="https://www.cacher.cc/2016/08/14/Android 自定义 Toolbar.html">
+<meta property="og:site_name" content="Cacher">
+<meta property="og:description" content="设置 NoActionBar 主题 添加 Toolbar 添加自定义 menu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/08/toolbarinside.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/08/20160814195056.png">
+<meta property="og:image" content="https://oizhq5zzs.qnssl.com/images/2016/08/20160814234139.png">
+<meta property="og:updated_time" content="2017-12-26T16:18:25.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 自定义 Toolbar">
+<meta name="twitter:description" content="设置 NoActionBar 主题 添加 Toolbar 添加自定义 menu">
+<meta name="twitter:image" content="https://oizhq5zzs.qnssl.com/images/2016/08/toolbarinside.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title> Android 自定义 Toolbar | Cacher </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ccf9499512f844d75eec6acf773e4920";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Cacher</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-reward">
+          <a href="/reward" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-magnet"></i> <br />
+            
+            打赏
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://www.cacher.cc/2016/08/14/Android 自定义 Toolbar.html">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Cacher">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://oizhq5zzs.qnssl.com/%E5%A4%B4%E5%83%8F300.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Cacher">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Cacher" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 自定义 Toolbar
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-14T23:56:24+08:00">
+                2016-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>设置 <strong>NoActionBar</strong> 主题</li>
+<li>添加 <strong>Toolbar</strong></li>
+<li>添加自定义 <strong>menu</strong></li>
+</ul>
+<a id="more"></a>
+<hr>
+<h3 id="将-styles-中的-AppTheme-改为-NoActionBar-的主题"><a href="#将-styles-中的-AppTheme-改为-NoActionBar-的主题" class="headerlink" title="将 styles 中的 AppTheme 改为 NoActionBar 的主题"></a>将 <strong>styles</strong> 中的 <strong>AppTheme</strong> 改为 <strong>NoActionBar</strong> 的主题</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- Base application theme. --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"AppTheme"</span> <span class="attr">parent</span>=<span class="string">"Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="xml">        <span class="comment">&lt;!-- Customize your theme here. --&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimary"</span>&gt;</span>@color/colorPrimary<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorPrimaryDark"</span>&gt;</span>@color/colorPrimaryDark<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"colorAccent"</span>&gt;</span>@color/colorAccent<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="添加-Toolbar"><a href="#添加-Toolbar" class="headerlink" title="添加 Toolbar"></a>添加 <strong>Toolbar</strong></h3><p>为 <strong>activity</strong> 添加 <strong>Toolbar</strong> 控件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.v7.widget.Toolbar</span></span></span><br><span class="line"><span class="tag">        <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/toolbar"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"?attr/colorPrimary"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.v7.widget.Toolbar</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可能会出现内嵌的情况</p>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/08/toolbarinside.png" alt="img"></p>
+<p>将最外层的 <strong>RelativeLayout</strong> 中的 <strong>padding</strong> 属性去掉</p>
+<p>在 <strong>Toolbar</strong> 的下层布局中添加 <strong>layout_below</strong> 属性，使其处于 <strong>Toolbar</strong> 下方</p>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/08/20160814195056.png" alt="img"></p>
+<h3 id="为-Toolbar-添加自定义-Menu"><a href="#为-Toolbar-添加自定义-Menu" class="headerlink" title="为 Toolbar 添加自定义 Menu"></a>为 <strong>Toolbar</strong> 添加自定义 <strong>Menu</strong></h3><p>在 <strong>res</strong> 中新建 <strong>menu</strong> 文件夹</p>
+<p>新建 <strong>xml</strong> 文件，根标签为 <strong>menu</strong></p>
+<p>添加 <strong>item</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/menu_search"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:title</span>=<span class="string">"查找"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@drawable/search"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:showAsAction</span>=<span class="string">"ifRoom"</span></span></span><br><span class="line"><span class="tag">        &gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/menu_chat"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:title</span>=<span class="string">"聊天"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@drawable/chat"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:showAsAction</span>=<span class="string">"ifRoom"</span></span></span><br><span class="line"><span class="tag">        &gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/menu_leaf"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:title</span>=<span class="string">"叶子"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@drawable/leaf"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:showAsAction</span>=<span class="string">"ifRoom"</span></span></span><br><span class="line"><span class="tag">        &gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在 <strong>activity</strong> 对应的 <strong>class</strong> 中添加菜单<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);</span><br><span class="line">        setSupportActionBar(toolbar);</span><br><span class="line">        toolbar.setOnMenuItemClickListener(<span class="keyword">new</span> Toolbar.OnMenuItemClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onMenuItemClick</span><span class="params">(MenuItem item)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line">        getMenuInflater().inflate(R.menu.main_menu,menu);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onCreateOptionsMenu(menu);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果</p>
+<p><img src="https://oizhq5zzs.qnssl.com/images/2016/08/20160814234139.png" alt="img"></p>
+<p>设置 <strong>title</strong> 不显示，添加一个 <strong>TextView</strong> 自定义 <strong>Title</strong> 样式</p>
+<p>设置显示返回箭头<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ActionBar actionBar=getSupportActionBar();</span><br><span class="line"><span class="keyword">if</span>(actionBar!=<span class="keyword">null</span>)&#123;</span><br><span class="line">    actionBar.setDisplayShowTitleEnabled(<span class="keyword">false</span>);</span><br><span class="line">    actionBar.setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://oizhq5zzs.qnssl.com/images/pay/wechatpay.png" alt="Cacher WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://oizhq5zzs.qnssl.com/images/pay/alipay.png" alt="Cacher Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Toolbar/" rel="tag"># Toolbar</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/14/HttpUrlConnection 基础.html" rel="next" title="HttpUrlConnection 基础">
+                <i class="fa fa-chevron-left"></i> HttpUrlConnection 基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/08/15/Android 获取控件子对象的方法.html" rel="prev" title="Android 获取控件子对象的方法">
+                Android 获取控件子对象的方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://oizhq5zzs.qnssl.com/%E5%A4%B4%E5%83%8F300.png"
+               alt="Cacher" />
+          <p class="site-author-name" itemprop="name">Cacher</p>
+          <p class="site-description motion-element" itemprop="description">Life Is An Attitude</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xhaiben" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005051715772565" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.ruanyifeng.com/blog/" title="ruanyf" target="_blank">ruanyf</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.lihuanyu.com/" title="skyADMIN" target="_blank">skyADMIN</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://storyofsearch.com/" title="Story OF Search" target="_blank">Story OF Search</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#将-styles-中的-AppTheme-改为-NoActionBar-的主题"><span class="nav-number">1.</span> <span class="nav-text">将 styles 中的 AppTheme 改为 NoActionBar 的主题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-Toolbar"><span class="nav-number">2.</span> <span class="nav-text">添加 Toolbar</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为-Toolbar-添加自定义-Menu"><span class="nav-number">3.</span> <span class="nav-text">为 Toolbar 添加自定义 Menu</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+    </div>
+    
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cacher</span>
+</div>
+
+<div>
+鲁 ICP 备 16019302 号
+</div>
+
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
